@@ -3,3 +3,4 @@ out
 pkg
 /tmp/
 *.sublime-workspace
+rootfs/bin/broker

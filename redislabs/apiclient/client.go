@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -17,8 +18,11 @@ import (
 
 type (
 	apiClient struct {
-		conf   config.Config
-		logger lager.Logger
+		redisLabsUsername    string
+		redisLabsPassword    string
+		redisLabsClusterAddr string
+		conf                 config.Config
+		logger               lager.Logger
 	}
 
 	errorResponse struct {
@@ -40,9 +44,27 @@ var (
 )
 
 func New(conf config.Config, logger lager.Logger) *apiClient {
+	rlUser := os.Getenv("REDIS_LABS_USERNAME")
+	rlPass := os.Getenv("REDIS_LABS_PASSWORD")
+	rlClusterAddr := os.Getenv("REDIS_LABS_CLUSTER_ADDR")
+	if rlUser == "" {
+		logger.Error("no redis labs username given", nil)
+		os.Exit(1)
+	}
+	if rlPass == "" {
+		logger.Error("no redis labs password given", nil)
+		os.Exit(1)
+	}
+	if rlClusterAddr == "" {
+		logger.Error("no redis cluster address given", nil)
+		os.Exit(1)
+	}
 	return &apiClient{
-		conf:   conf,
-		logger: logger,
+		redisLabsUsername:    rlUser,
+		redisLabsPassword:    rlPass,
+		redisLabsClusterAddr: rlClusterAddr,
+		conf:                 conf,
+		logger:               logger,
 	}
 }
 
@@ -173,9 +195,9 @@ func (c *apiClient) DeleteDatabase(UID int) error {
 
 func (c *apiClient) httpClient() httpclient.HTTPClient {
 	return httpclient.New(
-		c.conf.Cluster.Auth.Username,
-		c.conf.Cluster.Auth.Password,
-		c.conf.Cluster.Address,
+		c.redisLabsUsername,
+		c.redisLabsPassword,
+		c.redisLabsClusterAddr,
 		c.logger,
 	)
 }
