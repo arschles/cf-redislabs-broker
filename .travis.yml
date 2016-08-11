@@ -6,3 +6,8 @@ go:
 env:
   - GO15VENDOREXPERIMENT=1
 
+deploy:
+  provider: script
+  script: deploy.sh
+  on:
+    branch: master
