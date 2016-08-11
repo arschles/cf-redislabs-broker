@@ -7,28 +7,16 @@ import (
 )
 
 type Config struct {
-	Cluster       ClusterConfig       `yaml:"cluster"`
 	ServiceBroker ServiceBrokerConfig `yaml:"broker"`
 }
 
-type ClusterConfig struct {
-	Auth    AuthConfig `yaml:"auth"`
-	Address string     `yaml:"address"`
-}
-
 type ServiceBrokerConfig struct {
-	Auth        AuthConfig          `yaml:"auth"`
 	Plans       []ServicePlanConfig `yaml:"plans"`
 	ServiceID   string              `yaml:"service_id"`
 	Port        int                 `yaml:"port"`
 	Name        string              `yaml:"name"`
 	Description string              `yaml:"description"`
 	Metadata    ServiceMetadata     `yaml:"metadata"`
-}
-
-type AuthConfig struct {
-	Password string `yaml:"password"`
-	Username string `yaml:"username"`
 }
 
 type ServicePlanConfig struct {

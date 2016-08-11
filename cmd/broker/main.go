@@ -59,9 +59,20 @@ func main() {
 		brokerLogger,
 	)
 
+	brokerUser := os.Getenv("BROKER_USERNAME")
+	if brokerUser == "" {
+		brokerLogger.Error("no broker username given", nil)
+		os.Exit(1)
+	}
+	brokerPass := os.Getenv("BROKER_PASSWORD")
+	if brokerPass == "" {
+		brokerLogger.Error("no broker password given", nil)
+		os.Exit(1)
+	}
+
 	credentials := brokerapi.BrokerCredentials{
-		Username: conf.ServiceBroker.Auth.Username,
-		Password: conf.ServiceBroker.Auth.Password,
+		Username: brokerUser,
+		Password: brokerPass,
 	}
 
 	brokerAPI := brokerapi.New(serviceBroker, brokerLogger, credentials)

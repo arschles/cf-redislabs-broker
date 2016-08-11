@@ -1,14 +1,5 @@
-cluster:
-  address: <API_ADDRESS>
-  auth:
-    password: <API_PASSWORD>
-    username: <API_USERNAME>
-
 broker:
   port: 8080
-  auth:
-    password: <BROKER_PASSWORD>
-    username: <BROKER_USERNAME>
   service_id: redislabs-enterprise-cluster
   name: redislabs-enterprise-cluster
   description: "Redis Labs Enterprise Cluster by Redis Labs"
