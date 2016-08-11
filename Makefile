@@ -1,8 +1,8 @@
-DOCKER_REGISTRY ?= quay.io/
-DOCKER_IMAGE_PREFIX ?= deis
+DOCKER_REPO ?= quay.io/
+DOCKER_ORG ?= redislabs
 DOCKER_VERSION ?= git-$(shell git rev-parse --short HEAD)
 
-DOCKER_IMAGE := ${DOCKER_REGISTRY}${DOCKER_IMAGE_PREFIX}/cf-redislabs-broker:${DOCKER_VERSION}
+DOCKER_IMAGE := ${DOCKER_REPO}${DOCKER_ORG}/cf-redislabs-broker:${DOCKER_VERSION}
 
 build-for-docker:
 	GOOS=linux GOARCH=amd64 go build -o rootfs/bin/broker .
