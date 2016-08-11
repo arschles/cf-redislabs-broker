@@ -67,8 +67,15 @@ redislabs-service-broker -c /path/to/config.yml
 
 You can find a template of the config file under the `examples` [folder](https://github.com/RedisLabs/cf-redislabs-broker/tree/master/examples/config.yml).
 This template is distributed with every release as `config.yml.template`.
-Please replace the values enclosed in `<>` with the actual parameter values.
-The properties not enclosed in `<>` are defaults that we find reasonable but you can alter them if needed.
+
+You'll also need to define the following environment variables when running the broker:
+
+- `REDIS_LABS_USERNAME` - your RedisLabs username
+- `REDIS_LABS_PASSWORD` - your RedisLabs password
+- `REDIS_LABS_CLUSTER_ADDR` - your RedisLabs cluster address
+- `BROKER_USERNAME` - the username for the broker to use to authenticate clients (using HTTP basic auth)
+- `BROKER_PASSWORD` - the password for the broker to use to authenticate clients (using HTTP basic auth)
+
 
 ## Using the service
 To better understand how CF service brokers works please consult the the [CF documentation](http://docs.cloudfoundry.org/services/managing-service-brokers.html) .
