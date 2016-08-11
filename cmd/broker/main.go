@@ -38,7 +38,7 @@ func main() {
 
 	if brokerConfigPath == "" {
 		brokerLogger.Error("No config file specified", nil)
-		return
+		os.Exit(1)
 	}
 
 	brokerLogger.Info("Using config file: " + brokerConfigPath)
@@ -48,7 +48,7 @@ func main() {
 		brokerLogger.Error("Failed to load the config file", err, lager.Data{
 			"broker-config-path": brokerConfigPath,
 		})
-		return
+		os.Exit(1)
 	}
 
 	serviceBroker := redislabs.NewServiceBroker(
