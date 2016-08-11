@@ -22,9 +22,28 @@ To build the service broker simply run the following command:
 ```
 After the build is completed you can locate the resulting binary in `out/redislabs-service-broker` .
 
+### Building a Docker Image
+To build a [Docker](https://www.docker.com/) image, run the following `make` command:
+
+```console
+make docker-build
+```
+
+You can also push the same Docker image with:
+
+```console
+make docker-push
+```
+
+The `Makefile` is configured by the following environment variables:
+
+- `DOCKER_REPOY` - the registry to push to. For example, your own internal registry, [Quay](https://quay.io), or [Google Container Registry](https://cloud.google.com/container-registry/). Must have a trailing slash. Leave empty if you'd like to push to [Docker Hub](https://hub.docker.com/). Defaults to `quay.io/`
+- `DOCKER_ORG` - the prefix that goes before the image name. For example, in `quay.io/my/image:tag`, `my` is the `DOCKER_ORG`. Defaults to `redislabs`
+- `DOCKER_VERSION` - the tag of the image. For example, in `quay.io/my/image:tag`, `tag` is the `DOCKER_VERSION`. Defaults to the evaluation of `git-$(shell git rev-parse --short HEAD)`
+
 ### Running unit tests
 It is highly advisable to execute the unit tests after the build was done.
-To do so simply execute the following command: 
+To do so simply execute the following command:
 ```
 ./bin/test
 ```
@@ -47,8 +66,8 @@ redislabs-service-broker -c /path/to/config.yml
 ```
 
 You can find a template of the config file under the `examples` [folder](https://github.com/RedisLabs/cf-redislabs-broker/tree/master/examples/config.yml).
-This template is distributed with every release as `config.yml.template`. 
-Please replace the values enclosed in `<>` with the actual parameter values. 
+This template is distributed with every release as `config.yml.template`.
+Please replace the values enclosed in `<>` with the actual parameter values.
 The properties not enclosed in `<>` are defaults that we find reasonable but you can alter them if needed.
 
 ## Using the service
@@ -57,7 +76,7 @@ To better understand how CF service brokers works please consult the the [CF doc
 * You can add additional configuration parameters on provisioning or updating a service, using the `-c` switch, as follows:
 ```
 cf create-service ... -c '{"name":"myredis-db", "replication":true, "memory_size":104857600}'
-``` 
+```
 
 See the RLEC API docs for the applicable parameters.
 
@@ -69,7 +88,7 @@ The service broker logs DEBUG-level info to `stdout` and errors to `stderr`.
 
 ## Internal state
 
-The broker stores its state in a JSON file located in a `$HOME/.redislabs-broker` folder. 
+The broker stores its state in a JSON file located in a `$HOME/.redislabs-broker` folder.
 **NOTE:** Do not change the contents of this folder manually.
 
 The persistence is implemented as a pluggable backend. Therefore, an option of storing the state in a database may be added in the future.
